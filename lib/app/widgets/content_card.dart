@@ -19,7 +19,7 @@ class ContentCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                '../../../assets/images/test_image.jpg',
+                'assets/images/test_image.jpg',
                 height: imageSize,
                 width: imageSize,
                 fit: BoxFit.cover,
