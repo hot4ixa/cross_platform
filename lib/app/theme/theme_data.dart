@@ -11,10 +11,50 @@ class AppTheme {
       // таким же образом сюда можно добавить и темы других виджетов
     );
   }
+  static ThemeData get darkTheme {
+    return ThemeData(
+      useMaterial3: true,
+      scaffoldBackgroundColor: ThemeColors.black_2,
+      //colorScheme: _colorScheme,
+      appBarTheme: _appBarTheme,
+      textTheme: _textTheme,
+    );
+  }
 }
+
 final _colorScheme = ColorScheme.fromSeed(
   seedColor: ThemeColors.accent,
 );
+
+
+final _textTheme = TextTheme(
+  bodyMedium: TextStyle(
+    fontFamily: "Arial",
+    fontSize: 18,
+    color: ThemeColors.yellow,
+  ),
+  titleLarge: TextStyle(
+    fontFamily: "Arial",
+    fontSize: 38,
+    color: ThemeColors.brown,
+  ),
+  labelSmall: TextStyle(
+    fontFamily: "Arial",
+    fontSize: 20,
+    color: ThemeColors.orange,
+  ),
+  headlineLarge: TextStyle(
+    fontFamily: "Arial",
+    fontSize: 38,
+    color: ThemeColors.orange,
+  ),
+  labelLarge: TextStyle(
+    fontFamily: "Arial",
+    fontSize: 40,
+    color: ThemeColors.yellow,
+  ),
+);
+
 
 final _appBarTheme = AppBarTheme(
   toolbarHeight: 50,
@@ -22,9 +62,10 @@ final _appBarTheme = AppBarTheme(
   scrolledUnderElevation: 0,
   centerTitle: true,
   titleTextStyle: TextStyle(
-    fontSize: 20,
+    fontFamily: "FF Mark W05",
+    fontSize: 30,
     fontWeight: FontWeight.bold,
-    color: ThemeColors.white,
+    color: ThemeColors.orange,
   ),
   backgroundColor: ThemeColors.black,
 );

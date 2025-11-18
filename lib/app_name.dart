@@ -10,7 +10,7 @@ class AppName extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Название приложения',
-      theme: AppTheme.lightTheme,
+      theme: AppTheme.darkTheme,//lightTheme,
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
