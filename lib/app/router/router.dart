@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import '../features/home/home_screen.dart';
+import '../features/champion/champion_page.dart';
 import '../../di/di.dart';
 
 final _rootNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -19,6 +20,15 @@ final router = GoRouter(
         child: const HomeScreen(),
       ),
     ),
+
+        GoRoute(
+      path: '/champion',
+      pageBuilder: (_, state) => MaterialPage(
+        key: state.pageKey,
+        child: const ChampionPage(),
+      ),
+    ),
+
     // для следующей лабораторной работы
     // GoRoute(
     //   path: '/content/:id',

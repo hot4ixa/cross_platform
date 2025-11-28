@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lab1/app/theme/theme_colors.dart';
 
 class ContentCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class ContentCard extends StatelessWidget {
         : ThemeColors.list_2;
 
     return InkWell(
-      // onTap: () => context.push('/content/${content.id}'),
+      onTap: () => context.go('/champion'),
       // borderRadius: BorderRadius.circular(16),
       child: Container(
         decoration: BoxDecoration(
