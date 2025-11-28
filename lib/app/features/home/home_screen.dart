@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../widgets/content_card.dart';
-import '../../extensions/widget_extensions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:lab1/app/widgets/widgets.dart';
+import 'package:lab1/app/extensions/extensions.dart';
+import 'package:lab1/domain/domain.dart';
+import 'package:lab1/di/di.dart';
+import 'bloc/bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

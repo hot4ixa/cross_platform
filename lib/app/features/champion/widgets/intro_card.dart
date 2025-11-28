@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lab1/app/theme/theme_colors.dart';
 
-class QuoteCard extends StatelessWidget {
-  const QuoteCard({super.key});
+class IntroCard extends StatelessWidget {
+  const IntroCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,23 +22,9 @@ class QuoteCard extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // картинка
-              // заменишь на Image.network() / asset
-              FlutterLogo(size: 80),
-
-              SizedBox(height: 15),
-
               Text(
-                "«Цитата...»",
+                "История",
                 style: Theme.of(context).textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-
-              SizedBox(height: 10),
-
-              Text(
-                "~ Автор",
-                style: Theme.of(context).textTheme.labelSmall,
               ),
             ],
           ),

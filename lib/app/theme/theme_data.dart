@@ -15,7 +15,6 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: ThemeColors.black_2,
-      //colorScheme: _colorScheme,
       appBarTheme: _appBarTheme,
       textTheme: _textTheme,
     );
@@ -40,7 +39,7 @@ final _textTheme = TextTheme(
   ),
   labelSmall: TextStyle(
     fontFamily: "Arial",
-    fontSize: 20,
+    fontSize: 18,
     color: ThemeColors.orange,
   ),
   headlineLarge: TextStyle(
@@ -68,4 +67,10 @@ final _appBarTheme = AppBarTheme(
     color: ThemeColors.orange,
   ),
   backgroundColor: ThemeColors.black,
+  shape: Border(
+            bottom: BorderSide(
+              color: ThemeColors.borderColor.withAlpha(1),
+              width: 2,
+            ),
+  ),
 );

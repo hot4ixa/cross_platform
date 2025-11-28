@@ -29,7 +29,7 @@ class ContentCard extends StatelessWidget {
           ],
           border: Border(
             top: BorderSide(
-              color: ThemeColors.orange.withAlpha(50), // золотая рамка
+              color: ThemeColors.orange.withAlpha(50),
               width: 0.5,
             ),
           ),

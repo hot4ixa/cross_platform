@@ -11,4 +11,6 @@ abstract final class ThemeColors {
   static const Color brown = Color.fromRGBO(103, 71, 31, 1);
   static const Color list_1 = Color.fromRGBO(19, 19, 21, 1);
   static const Color list_2 = Color.fromRGBO(10, 10, 12, 1);
+  static const Color borderColor = Color.fromRGBO(49, 39, 30, 1);
+  static const Color quoteBackgroundColor = Color.fromRGBO(17, 19, 24, 1);
 }
