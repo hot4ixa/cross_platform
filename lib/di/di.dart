@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'package:lab1/domain/domain.dart';
 import 'package:lab1/domain/repositories/content/content_repository.dart';
+import 'package:lab1/data/dio/dio.dart';
 
 import 'package:lab1/app/features/features.dart';
 
@@ -12,6 +13,7 @@ final talker = TalkerFlutter.init();
 final Dio dio = Dio();
 
 Future<void> setupLocator() async {
+  setUpDio();
   getIt.registerSingleton<ContentRepositoryInterface>(
     ContentRepository(dio: dio),
   );

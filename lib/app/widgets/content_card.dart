@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lab1/app/theme/theme_colors.dart';
+import 'package:lab1/domain/domain.dart';
 
 class ContentCard extends StatelessWidget {
+  final Content content;
   final int index;
-  const ContentCard({super.key, required this.index});
+  const ContentCard({super.key, required this.content,  required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,6 @@ class ContentCard extends StatelessWidget {
 
     return InkWell(
       onTap: () => context.go('/champion'),
-      // borderRadius: BorderRadius.circular(16),
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,
@@ -42,11 +43,12 @@ class ContentCard extends StatelessWidget {
           children: [
             ClipRRect(
               //borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'assets/images/test_image.jpg',
-                height: imageSize,
-                width: imageSize,
+              child: Image.network(
+                content.images.loading,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.error, color: Colors.white);
+                },
               ),
             ),
             Expanded(
@@ -55,14 +57,14 @@ class ContentCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Title',
+                    content.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Expanded(
                     child: Text(
-                      'Description',
+                      content.title,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium,

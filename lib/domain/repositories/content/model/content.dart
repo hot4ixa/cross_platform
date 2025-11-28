@@ -37,8 +37,14 @@ class Content {
 @JsonSerializable()
 class Images {
   final String splash;
+  final String loading;
+  final String square;
 
-  Images({required this.splash});
+  Images({
+    required this.splash,
+    required this.loading,
+    required this.square
+    });
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
   Map<String, dynamic> toJson() => _$ImagesToJson(this);

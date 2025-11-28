@@ -28,11 +28,16 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
   'biography': instance.biography,
 };
 
-Images _$ImagesFromJson(Map<String, dynamic> json) =>
-    Images(splash: json['splash'] as String);
+Images _$ImagesFromJson(Map<String, dynamic> json) => Images(
+  splash: json['splash'] as String,
+  loading: json['loading'] as String,
+  square: json['square'] as String,
+);
 
 Map<String, dynamic> _$ImagesToJson(Images instance) => <String, dynamic>{
   'splash': instance.splash,
+  'loading': instance.loading,
+  'square': instance.square,
 };
 
 Biography _$BiographyFromJson(Map<String, dynamic> json) => Biography(
