@@ -17,7 +17,9 @@ class ContentCard extends StatelessWidget {
         : ThemeColors.list_2;
 
     return InkWell(
-      onTap: () => context.go('/champion'),
+      onTap: () => {
+        context.push('/champion/${content.name}'),
+      },
       child: Container(
         decoration: BoxDecoration(
           color: backgroundColor,

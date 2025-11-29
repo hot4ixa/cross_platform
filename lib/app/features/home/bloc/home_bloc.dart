@@ -17,7 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _homeLoad(event, emit) async {
     try {
-      if (state is! HomeLoadSuccess) {
+      if (state is !HomeLoadSuccess) {
         emit(HomeLoadInProgress());
       }
       final content = await contentRepository.getContent();

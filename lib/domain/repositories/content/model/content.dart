@@ -8,24 +8,24 @@ class Content {
   final String name;
   final String title;
   
-  final String fraction;
-  final String quote;
+  final String? fraction;
+  final String? quote;
   
   @JsonKey(name: 'quote-author')
-  final String quoteAuthor;
+  final String? quoteAuthor;
 
   final Images images;
-  final Biography biography;
+  final Biography? biography;
 
   Content({
     required this.id,
     required this.name,
     required this.title,
-    required this.fraction,
-    required this.quote,
-    required this.quoteAuthor,
+    this.fraction,
+    this.quote,
+    this.quoteAuthor,
     required this.images,
-    required this.biography,
+    this.biography,
   });
 
   factory Content.fromJson(Map<String, dynamic> json) =>
@@ -36,14 +36,14 @@ class Content {
 
 @JsonSerializable()
 class Images {
-  final String splash;
+  final String? splash;
   final String loading;
-  final String square;
+  final String? square;
 
   Images({
-    required this.splash,
+    this.splash,
     required this.loading,
-    required this.square
+    this.square
     });
 
   factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
@@ -52,14 +52,14 @@ class Images {
 
 @JsonSerializable()
 class Biography {
-  final String short;
-  final String full;
-  final CustomBiography custom;
+  final String? short;
+  final String? full;
+  final CustomBiography? custom;
 
   Biography({
-    required this.short,
-    required this.full,
-    required this.custom,
+    this.short,
+    this.full,
+    this.custom,
   });
 
   factory Biography.fromJson(Map<String, dynamic> json) =>
@@ -69,10 +69,13 @@ class Biography {
 
 @JsonSerializable()
 class CustomBiography {
-  final String title;
-  final String content;
+  final String? title;
+  final String? content;
 
-  CustomBiography({required this.title, required this.content});
+  CustomBiography({
+    this.title,
+    this.content
+  });
 
   factory CustomBiography.fromJson(Map<String, dynamic> json) =>
       _$CustomBiographyFromJson(json);

@@ -11,11 +11,23 @@ class ContentRepository implements ContentRepositoryInterface {
   @override
   Future<List<Content>> getContent() async {
     try {
-      final ur = dio.options.baseUrl;
       final Response response = await dio.get(Endpoints.content);
       final content = (response.data as List)
           .map((e) => Content.fromJson(e))
           .toList();
+      return content;
+    } on DioException catch (e) {
+      throw e.message.toString();
+    }
+  }
+
+  @override
+  Future<Content> getChampion(String id) async {
+    try {
+      final Response response = await dio.get(Endpoints.champion(id));
+
+      final content = Content.fromJson(response.data);
+      
       return content;
     } on DioException catch (e) {
       throw e.message.toString();

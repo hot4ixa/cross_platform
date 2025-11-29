@@ -1,0 +1,37 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lab1/domain/domain.dart';
+import 'package:lab1/di/di.dart';
+
+import 'dart:async';
+
+part "champion_event.dart";
+part "champion_state.dart";
+
+class ChampionBloc extends Bloc<ChampionEvent, ChampionState> {
+  final ContentRepositoryInterface contentRepository;
+
+  ChampionBloc(this.contentRepository) : super(ChampionInitial()) {
+    on<ChampionLoad>(_championLoad);
+  }
+
+  Future<void> _championLoad(event, emit) async {
+    try {
+      if (state is !ChampionLoadSuccess) {
+        emit(ChampionLoadInProgress());
+      }
+      final champion = await contentRepository.getChampion(event.id);
+      emit(ChampionLoadSuccess(champion: champion));
+    } catch (exception, state) {
+      emit(ChampionLoadFailure(exception: exception));
+      talker.handle(exception, state);
+    } finally {
+      event.completer?.complete();
+    }
+  }
+}
+
+// abstract class ChampionEvent {}
+// class ChampionLoad extends ChampionEvent {
+//   final String id;
+//   ChampionLoad(this.id);
+// }

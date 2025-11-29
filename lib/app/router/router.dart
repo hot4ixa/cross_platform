@@ -21,12 +21,12 @@ final router = GoRouter(
       ),
     ),
 
-        GoRoute(
-      path: '/champion',
-      pageBuilder: (_, state) => MaterialPage(
-        key: state.pageKey,
-        child: const ChampionPage(),
-      ),
+    GoRoute(
+      path: '/champion/:id',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return ChampionPage(id: id);
+      },
     ),
 
     // для следующей лабораторной работы
