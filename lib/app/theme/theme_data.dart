@@ -61,7 +61,6 @@ final _appBarTheme = AppBarTheme(
   scrolledUnderElevation: 0,
   centerTitle: true,
   titleTextStyle: TextStyle(
-    fontFamily: "FF Mark W05",
     fontSize: 30,
     fontWeight: FontWeight.bold,
     color: ThemeColors.orange,

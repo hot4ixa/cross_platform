@@ -47,10 +47,7 @@ class ContentCard extends StatelessWidget {
               //borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 content.images.loading,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error, color: Colors.white);
-                },
+                fit: BoxFit.cover
               ),
             ),
             Expanded(
