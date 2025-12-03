@@ -5,10 +5,10 @@ class AppError extends StatelessWidget {
   final void Function() onTap;
 
   const AppError({
-    Key? key,
+    super.key,
     required this.description,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -9,7 +9,7 @@ sealed class ChampionEvent extends Equatable {
 
 class ChampionLoad extends ChampionEvent {
   final String id;
-  ChampionLoad({
+  const ChampionLoad({
     this.completer,
     required this.id
   });
