@@ -13,12 +13,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _homeBloc = getIt<HomeBloc>();
+  final _home = getIt<HomeBloc>();
+  void loadHome() => _home.add(HomeLoad());
 
   @override
   void initState() {
+    loadHome();
     super.initState();
-    _homeBloc.add(HomeLoad());
   }
 
   @override
@@ -26,70 +27,74 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('L E A G U E   O F   U N I V E R S E')),
       body: BlocBuilder<HomeBloc, HomeState>(
-        bloc: _homeBloc,
+        bloc: _home,
         builder: (context, state) {
-          return Column(
-            children: [
-              _buildHeader(context),
-              Expanded(child: _buildContent(state)),
-            ],
-          );
+          return switch (state) {
+            HomeInitial() => _buildHomeInitial(),
+            HomeLoadInProgress() => _buildHomeLoadInProgress(),
+            HomeLoadSuccess() => _buildHomeLoadSuccess(state),
+            HomeLoadFailure() => _buildHomeLoadFailure(state),
+          };
         },
       ),
     );
   }
 
   
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/championsBackground.jpg'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black.withAlpha(180),
-            BlendMode.darken,
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
-        child: Text(
-          'Header',
-          style: Theme.of(context).textTheme.labelLarge,
-          textAlign: TextAlign.center,
-        ),
-      ),
+  Widget _buildHomeInitial() => SizedBox.shrink();
+
+  Widget _buildHomeLoadInProgress() => AppProgressIndicator();
+
+  Widget _buildHomeLoadFailure(HomeLoadFailure state) {
+    return AppError(
+      description: state.exception.toString(),
+      onTap: () => loadHome(),
     );
   }
 
-  Widget _buildContent(HomeState state) {
-    if (state is HomeLoadInProgress || state is HomeInitial) {
-      return Center(child: CircularProgressIndicator());
-    }
+  Widget _buildHomeLoadSuccess(HomeLoadSuccess state) {
+    final content = state.content;
+  
+    return SingleChildScrollView(
+      child: Column(
+        spacing: 0,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/championsBackground.jpg'),
+                fit: BoxFit.cover,
+                colorFilter: ColorFilter.mode(
+                Colors.black.withAlpha(180),
+                BlendMode.darken,
+                ),
+              ),
+            ),
 
-    if (state is HomeLoadFailure) {
-      return Center(
-        child: TextButton(
-          onPressed: () => _homeBloc.add(HomeLoad()),
-          child: Text('Ошибка. Попробовать снова'),
-        ),
-      );
-    }
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
+              child: Text(
+                'Чемпионы',
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
 
-    if (state is HomeLoadSuccess) {
-      final content = state.content;
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(16),
+            itemCount: content.length,
+            itemBuilder: (_, index) =>
+                ContentCard(content: content[index], index: index),
+            separatorBuilder: (_, __) => SizedBox(height: 16),
+          )
+        ]
+      )
+    );
 
-      return ListView.separated(
-        padding: EdgeInsets.all(16),
-        itemCount: content.length,
-        itemBuilder: (_, index) =>
-            ContentCard(content: content[index], index: index),
-        separatorBuilder: (_, __) => SizedBox(height: 16),
-      );
-    }
-
-    return SizedBox.shrink();
   }
 }

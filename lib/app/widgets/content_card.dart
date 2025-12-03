@@ -18,7 +18,7 @@ class ContentCard extends StatelessWidget {
 
     return InkWell(
       onTap: () => {
-        context.push('/champion/${content.name}'),
+        context.push('/champion/${content.id}'),
       },
       child: Container(
         decoration: BoxDecoration(

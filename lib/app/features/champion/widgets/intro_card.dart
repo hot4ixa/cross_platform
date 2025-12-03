@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:lab1/app/theme/theme_colors.dart';
 
 class IntroCard extends StatelessWidget {
-  const IntroCard({super.key});
+  final String intro;
+
+  const IntroCard({
+    super.key,
+    required this.intro
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +28,10 @@ class IntroCard extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Text(
-                "История",
-                style: Theme.of(context).textTheme.bodyMedium,
+              DefaultTextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!,
+                textAlign: TextAlign.center,
+                child: Html(data: intro)
               ),
             ],
           ),

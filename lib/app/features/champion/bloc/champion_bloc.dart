@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lab1/domain/domain.dart';
 import 'package:lab1/di/di.dart';
@@ -28,10 +29,10 @@ class ChampionBloc extends Bloc<ChampionEvent, ChampionState> {
       event.completer?.complete();
     }
   }
-}
 
-// abstract class ChampionEvent {}
-// class ChampionLoad extends ChampionEvent {
-//   final String id;
-//   ChampionLoad(this.id);
-// }
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    super.onError(error, stackTrace);
+    talker.handle(error, stackTrace);
+  }
+}

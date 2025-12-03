@@ -18,5 +18,6 @@ Future<void> setupLocator() async {
     ContentRepository(dio: dio),
   );
   getIt.registerSingleton(HomeBloc(getIt.get<ContentRepositoryInterface>()));
+  getIt.registerSingleton(ChampionBloc(getIt.get<ContentRepositoryInterface>()));
   getIt.registerSingleton(talker);
 }

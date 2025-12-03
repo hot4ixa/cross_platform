@@ -79,11 +79,11 @@ class ChampionScreen extends StatelessWidget {
                 ],
               ),
 
-              const QuoteCard(),
+              // const QuoteCard(),
 
-              const SizedBox(height: 12),
+              // const SizedBox(height: 12),
 
-              const IntroCard(),
+              // const IntroCard(),
 
               const SizedBox(height: 12),
 
