@@ -2,11 +2,11 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
 
-import 'package:lab1/domain/domain.dart';
-import 'package:lab1/domain/repositories/content/content_repository.dart';
-import 'package:lab1/data/dio/dio.dart';
+import 'package:uniLOLverse/domain/domain.dart';
+import 'package:uniLOLverse/domain/repositories/content/content_repository.dart';
+import 'package:uniLOLverse/data/dio/dio.dart';
 
-import 'package:lab1/app/features/features.dart';
+import 'package:uniLOLverse/app/features/features.dart';
 
 final getIt = GetIt.instance;
 final talker = TalkerFlutter.init();

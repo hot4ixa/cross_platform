@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'model/content.dart';
-import 'package:lab1/data/endpoints.dart';
+import 'package:uniLOLverse/data/endpoints.dart';
 import 'content_repository_interface.dart';
 
 class ContentRepository implements ContentRepositoryInterface {

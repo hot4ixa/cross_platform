@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lab1/app/features/features.dart';
-import 'package:lab1/di/di.dart';
+import 'package:uniLOLverse/app/features/features.dart';
+import 'package:uniLOLverse/di/di.dart';
 
 final _rootNavigationKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 

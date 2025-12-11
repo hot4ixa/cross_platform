@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:lab1/app/theme/theme.dart';
+import 'package:uniLOLverse/app/theme/theme.dart';
 
-import 'package:lab1/app/widgets/widgets.dart';
+import 'package:uniLOLverse/app/widgets/widgets.dart';
 import 'widgets/widgets.dart';
-import 'package:lab1/di/di.dart';
+import 'package:uniLOLverse/di/di.dart';
 import 'bloc/bloc.dart';
 
 

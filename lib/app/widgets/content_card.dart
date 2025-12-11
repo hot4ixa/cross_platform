@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lab1/app/theme/theme_colors.dart';
-import 'package:lab1/domain/domain.dart';
+import 'package:uniLOLverse/app/theme/theme_colors.dart';
+import 'package:uniLOLverse/domain/domain.dart';
 
 class ContentCard extends StatelessWidget {
   final Content content;

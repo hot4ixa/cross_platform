@@ -1,5 +1,5 @@
 import 'package:talker_dio_logger/talker_dio_logger.dart';
-import 'package:lab1/di/di.dart';
+import 'package:uniLOLverse/di/di.dart';
 
 void setUpDio() {
   dio.options.baseUrl = 'http://10.8.1.16:8080'; // общая часть адресов запросов

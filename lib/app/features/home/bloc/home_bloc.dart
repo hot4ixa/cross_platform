@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lab1/domain/domain.dart';
-import 'package:lab1/di/di.dart';
+import 'package:uniLOLverse/domain/domain.dart';
+import 'package:uniLOLverse/di/di.dart';
 
 import 'dart:async';
 import 'package:equatable/equatable.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:lab1/app/theme/theme.dart';
+import 'package:uniLOLverse/app/theme/theme.dart';
 
 class StoryBlock extends StatelessWidget {
   final String title;
