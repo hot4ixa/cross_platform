@@ -55,24 +55,21 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHomeLoadSuccess(HomeLoadSuccess state) {
     final content = state.content;
   
-    return SingleChildScrollView(
-      child: Column(
-        spacing: 0,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
+    return CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/championsBackground.jpg'),
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                Colors.black.withAlpha(180),
-                BlendMode.darken,
+                  Colors.black.withAlpha(180),
+                  BlendMode.darken,
                 ),
               ),
             ),
-
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
               child: Text(
@@ -82,18 +79,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
-          ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.all(16),
-            itemCount: content.length,
-            itemBuilder: (_, index) =>
-                ContentCard(content: content[index], index: index),
-            separatorBuilder: (_, __) => SizedBox(height: 16),
-          )
-        ]
-      )
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => ContentCard(content: content[index], index: index),
+            childCount: content.length,
+          ),
+        ),
+      ],
     );
 
   }

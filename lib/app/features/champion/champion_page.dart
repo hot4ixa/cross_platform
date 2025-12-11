@@ -11,7 +11,7 @@ import 'bloc/bloc.dart';
 
 
 
-class ChampionPage extends StatefulWidget {
+class ChampionPage extends StatelessWidget {
   final String id;
 
   const ChampionPage({
@@ -20,147 +20,125 @@ class ChampionPage extends StatefulWidget {
   });
 
   @override
-  State<ChampionPage> createState() => _ChampionPageState();
-}
-
-class _ChampionPageState extends State<ChampionPage> {
-  final _champion = getIt<ChampionBloc>();
-  void loadChampion() => _champion.add(ChampionLoad(id: widget.id));
-
-  @override
-  void initState() {
-    loadChampion();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-                  color: Colors.white,
-                  onPressed: () {
-                  context.go("/home");
-                  },
-                ),
-        title: Text('L E A G U E   O F   U N I V E R S E')
+          color: Colors.white,
+          onPressed: () => context.go("/home"),
         ),
+        title: Text('L E A G U E   O F   U N I V E R S E'),
+      ),
       body: BlocBuilder<ChampionBloc, ChampionState>(
-        bloc: _champion,
         builder: (context, state) {
-          return switch (state) {
-            ChampionInitial() => _buildChampionInitial(),
-            ChampionLoadInProgress() => _buildChampionLoadInProgress(),
-            ChampionLoadSuccess() => _buildChampionLoadSuccess(state),
-            ChampionLoadFailure() => _buildChampionLoadFailure(state),
-          };
-        }
-      )
-    );
-  }
-
-  Widget _buildChampionInitial() => SizedBox.shrink();
-
-  Widget _buildChampionLoadInProgress() => AppProgressIndicator();
-
-  Widget _buildChampionLoadFailure(ChampionLoadFailure state) {
-    return AppError(
-      description: state.exception.toString(),
-      onTap: () => loadChampion(),
-    );
-  }
-
-  Widget _buildChampionLoadSuccess(ChampionLoadSuccess state) {
-    final content = state.champion;
-    String quoteAuthor = content.name;
-    if (content.quoteAuthor!.isNotEmpty) {
-      quoteAuthor = content.quoteAuthor!;
-    }
-
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate([
-
-              Stack(
-                children: [
-                  Image.network(
-                    content.images.splash!,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-
-                  // Затемнение
-                  Positioned.fill(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black54,
-                            ThemeColors.black_2,
-                          ],
-                        ),
-                      ),
+          switch (state) {
+            case ChampionInitial():
+              return SizedBox.shrink();
+            case ChampionLoadInProgress():
+              return AppProgressIndicator();
+            case ChampionLoadFailure():
+              return AppError(
+                description: state.exception.toString(),
+                onTap: () => context.read<ChampionBloc>().add(
+                      ChampionLoad(id: id),
                     ),
-                  ),
-
-                  Positioned(
-                    bottom: 20,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          content.name,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                          content.title,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              QuoteCard(
-                quote: content.quote!,
-                author: quoteAuthor,
-                image: content.images.square!
-
-              ),
-
-              const SizedBox(height: 12),
-
-              IntroCard(
-                intro: content.biography!.short!,
-              ),
-
-              const SizedBox(height: 12),
-
-              StoryBlock(
-                title: "",
-                text: content.biography!.full!,
-              ),
-              
-              if (content.biography!.custom!.content!.isNotEmpty)
-                StoryBlock(
-                  title: content.biography!.custom!.title!,
-                  text: content.biography!.custom!.content!,
-                ),
-
-              const SizedBox(height: 50),
-            ]),
-          )
-        ],
+              );
+            case ChampionLoadSuccess():
+              return _buildChampionLoadSuccess(context, state);
+          }
+        },
       ),
     );
   }
 
+
+  Widget _buildChampionLoadSuccess( BuildContext context, ChampionLoadSuccess state ) 
+  {
+  final content = state.champion;
+
+  String quoteAuthor = content.quoteAuthor?.isNotEmpty == true
+      ? content.quoteAuthor!
+      : content.name;
+
+  return CustomScrollView(
+    slivers: [
+      SliverList(
+        delegate: SliverChildListDelegate([
+          Stack(
+            children: [
+              Image.network(
+                content.images.splash!,
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+
+              Positioned.fill(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.transparent,
+                        Colors.black54,
+                        ThemeColors.black_2,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      content.name,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Text(
+                      content.title,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          QuoteCard(
+            quote: content.quote!,
+            author: quoteAuthor,
+            image: content.images.square!,
+          ),
+
+          const SizedBox(height: 12),
+
+          IntroCard(
+            intro: content.biography!.short!,
+          ),
+
+          const SizedBox(height: 12),
+
+          StoryBlock(
+            title: "",
+            text: content.biography!.full!,
+          ),
+
+          if (content.biography!.custom!.content!.isNotEmpty)
+            StoryBlock(
+              title: content.biography!.custom!.title!,
+              text: content.biography!.custom!.content!,
+            ),
+
+            const SizedBox(height: 50),
+          ]),
+        ),
+      ],
+    );
+  }
+  
 }

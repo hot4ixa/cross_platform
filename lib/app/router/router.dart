@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lab1/app/features/features.dart';
 import 'package:lab1/di/di.dart';
@@ -23,9 +24,15 @@ final router = GoRouter(
 
     GoRoute(
       path: '/champion/:id',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final id = state.pathParameters['id']!;
-        return ChampionPage(id: id);
+        return NoTransitionPage(
+          key: state.pageKey,
+          child: BlocProvider(
+            create: (_) => getIt<ChampionBloc>()..add(ChampionLoad(id: id)),
+            child: ChampionPage(id: id),
+          ),
+        );
       },
     ),
 

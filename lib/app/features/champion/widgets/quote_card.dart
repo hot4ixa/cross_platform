@@ -31,7 +31,10 @@ class QuoteCard extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Image.network( image ),
+              Image.network( 
+                image, 
+                height: 75,
+              ),
 
               Text(
                 quote,

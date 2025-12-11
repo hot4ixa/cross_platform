@@ -10,7 +10,7 @@ class ContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageSize = 200.0;
+    final imageSize = 150.0;
 
     final backgroundColor = index % 2 == 0
         ? ThemeColors.list_1
@@ -47,7 +47,8 @@ class ContentCard extends StatelessWidget {
               //borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 content.images.loading,
-                fit: BoxFit.cover
+                fit: BoxFit.cover,
+                
               ),
             ),
             Expanded(

@@ -29,27 +29,27 @@ final _colorScheme = ColorScheme.fromSeed(
 final _textTheme = TextTheme(
   bodyMedium: TextStyle(
     fontFamily: "Arial",
-    fontSize: 18,
+    fontSize: 14,
     color: ThemeColors.yellow,
   ),
   titleLarge: TextStyle(
     fontFamily: "Arial",
-    fontSize: 38,
+    fontSize: 20,
     color: ThemeColors.brown,
   ),
   labelSmall: TextStyle(
     fontFamily: "Arial",
-    fontSize: 18,
+    fontSize: 14,
     color: ThemeColors.orange,
   ),
   headlineLarge: TextStyle(
     fontFamily: "Arial",
-    fontSize: 38,
+    fontSize: 15,
     color: ThemeColors.orange,
   ),
   labelLarge: TextStyle(
     fontFamily: "Arial",
-    fontSize: 40,
+    fontSize: 25,
     color: ThemeColors.yellow,
   ),
 );
@@ -61,7 +61,7 @@ final _appBarTheme = AppBarTheme(
   scrolledUnderElevation: 0,
   centerTitle: true,
   titleTextStyle: TextStyle(
-    fontSize: 30,
+    fontSize: 17,
     fontWeight: FontWeight.bold,
     color: ThemeColors.orange,
   ),
