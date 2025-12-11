@@ -2,7 +2,7 @@
     <application
         android:label="uniLOLverse"
         android:name="${applicationName}"
-        android:icon="assets/images/icon_taric.jpg"
+        android:icon="@mipmap/icon_taric"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
