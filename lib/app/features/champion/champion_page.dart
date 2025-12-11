@@ -6,7 +6,6 @@ import 'package:uniLOLverse/app/theme/theme.dart';
 
 import 'package:uniLOLverse/app/widgets/widgets.dart';
 import 'widgets/widgets.dart';
-import 'package:uniLOLverse/di/di.dart';
 import 'bloc/bloc.dart';
 
 
