@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "722137927084",
+    "project_id": "uni-lol-verse",
+    "storage_bucket": "uni-lol-verse.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722137927084:android:f1f1a292f06b739a88be09",
+        "android_client_info": {
+          "package_name": "com.lab.unilolverse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4U0hg0SuhfCnnD4EW2RnHcC2Qmge2-8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
