@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('L E A G U E   O F   U N I V E R S E')),
+      appBar: CustomAppBar(pageId: PageId.home, context: context),
       body: BlocBuilder<HomeBloc, HomeState>(
         bloc: _home,
         builder: (context, state) {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:uniLOLverse/app/theme/theme.dart';
 
@@ -21,13 +20,7 @@ class ChampionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: () => context.go("/home"),
-        ),
-        title: Text('L E A G U E   O F   U N I V E R S E'),
-      ),
+      appBar: CustomAppBar(pageId: PageId.champion, context: context),
       body: BlocBuilder<ChampionBloc, ChampionState>(
         builder: (context, state) {
           switch (state) {

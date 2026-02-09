@@ -1,38 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uniLOLverse/domain/domain.dart';
-import 'package:uniLOLverse/di/di.dart';
 
-import 'dart:async';
-import 'package:equatable/equatable.dart';
+part "auth_event.dart";
+part "auth_state.dart";
 
-part "home_event.dart";
-part "home_state.dart";
+class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final AuthServiceInterface _authService;
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final ContentRepositoryInterface contentRepository;
-
-  HomeBloc(this.contentRepository) : super(HomeInitial()) {
-    on<HomeLoad>(_homeLoad);
+  AuthBloc(this._authService) : super(AuthInitial()) {
+    on<AuthLogin>(_onLogin);
+    on<AuthRegister>(_onRegister);
   }
 
-  Future<void> _homeLoad(event, emit) async {
+  Future<void> _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
     try {
-      if (state is !HomeLoadSuccess) {
-        emit(HomeLoadInProgress());
-      }
-      final content = await contentRepository.getContent();
-      emit(HomeLoadSuccess(content: content));
-    } catch (exception, state) {
-      emit(HomeLoadFailure(exception: exception));
-      talker.handle(exception, state);
-    } finally {
-      event.completer?.complete();
+      await _authService.logIn(
+        email: event.email,
+        password: event.password,
+      );
+      emit(AuthSuccess());
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
     }
   }
 
-  @override
-  void onError(Object error, StackTrace stackTrace) {
-    super.onError(error, stackTrace);
-    talker.handle(error, stackTrace);
+  Future<void> _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+    try {
+      await _authService.signUp(
+        email: event.email,
+        password: event.password,
+      );
+      emit(AuthSuccess());
+    } catch (e) {
+      emit(AuthFailure(e.toString()));
+    }
   }
 }

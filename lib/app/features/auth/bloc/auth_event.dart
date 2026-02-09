@@ -1,17 +1,22 @@
-part of "auth_bloc.dart";
+part of 'auth_bloc.dart';
 
-sealed class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class AuthEvent {}
 
-  @override
-  List<Object> get props => [];
+class AuthLogin extends AuthEvent {
+  final String email;
+  final String password;
+
+  AuthLogin({
+    required this.email,
+    required this.password
+  });
 }
 
-class HomeLoad extends HomeEvent {
-  const HomeLoad({this.completer});
-
-  final Completer? completer;
-
-  @override
-  List<Object> get props => [];
+class AuthRegister extends AuthEvent {
+  final String email;
+  final String password;
+  AuthRegister({
+    required this.email,
+    required this.password
+  });
 }

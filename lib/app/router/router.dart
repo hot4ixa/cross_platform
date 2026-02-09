@@ -36,6 +36,14 @@ final router = GoRouter(
       },
     ),
 
+    GoRoute(
+      path: '/auth',
+      builder: (context, state) => BlocProvider(
+        create: (context) => getIt.get<AuthBloc>(),
+        child: const AuthScreen(),
+      ),
+    ),
+
     // для следующей лабораторной работы
     // GoRoute(
     //   path: '/content/:id',

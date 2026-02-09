@@ -1,30 +1,14 @@
-part of "auth_bloc.dart";
+part of 'auth_bloc.dart';
 
-sealed class HomeState extends Equatable {
-  const HomeState();
+abstract class AuthState {}
 
-  @override
-  List<Object> get props => [];
-}
+class AuthInitial extends AuthState {}
 
-final class HomeInitial extends HomeState {}
+class AuthLoading extends AuthState {}
 
-final class HomeLoadInProgress extends HomeState {}
+class AuthSuccess extends AuthState {}
 
-final class HomeLoadSuccess extends HomeState {
-  const HomeLoadSuccess({ required this.content});
-
-  final List<Content> content;
-
-  @override
-  List<Object> get props => [content];
-}
-
-final class HomeLoadFailure extends HomeState {
-  const HomeLoadFailure({required this.exception});
-
-  final Object? exception;
-
-  @override
-  List<Object> get props => [];
+class AuthFailure extends AuthState {
+  final String message;
+  AuthFailure(this.message);
 }

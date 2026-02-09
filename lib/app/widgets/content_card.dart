@@ -6,6 +6,7 @@ import 'package:uniLOLverse/domain/domain.dart';
 class ContentCard extends StatelessWidget {
   final Content content;
   final int index;
+  
   const ContentCard({super.key, required this.content,  required this.index});
 
   @override
