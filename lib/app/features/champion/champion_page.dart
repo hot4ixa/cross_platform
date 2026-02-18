@@ -6,6 +6,7 @@ import 'package:uniLOLverse/app/theme/theme.dart';
 import 'package:uniLOLverse/app/widgets/widgets.dart';
 import 'widgets/widgets.dart';
 import 'bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 
@@ -19,118 +20,129 @@ class ChampionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(pageId: PageId.champion, context: context),
-      body: BlocBuilder<ChampionBloc, ChampionState>(
-        builder: (context, state) {
-          switch (state) {
-            case ChampionInitial():
-              return SizedBox.shrink();
-            case ChampionLoadInProgress():
-              return AppProgressIndicator();
-            case ChampionLoadFailure():
-              return AppError(
-                description: state.exception.toString(),
-                onTap: () => context.read<ChampionBloc>().add(
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, authSnapshot) {
+        final isAuthorized = authSnapshot.hasData && authSnapshot.data != null;
+
+        return Scaffold(
+          appBar: CustomAppBar(
+            pageId: PageId.champion,
+            context: context,
+            isAuthorized: isAuthorized,
+          ),
+          body: BlocBuilder<ChampionBloc, ChampionState>(
+            builder: (context, state) {
+              switch (state) {
+                case ChampionInitial():
+                  return const SizedBox.shrink();
+                case ChampionLoadInProgress():
+                  return const AppProgressIndicator();
+                case ChampionLoadFailure():
+                  return AppError(
+                    description: state.exception.toString(),
+                    onTap: () => context.read<ChampionBloc>().add(
                       ChampionLoad(id: id),
                     ),
-              );
-            case ChampionLoadSuccess():
-              return _buildChampionLoadSuccess(context, state);
-          }
-        },
-      ),
+                  );
+                case ChampionLoadSuccess():
+                  return _buildChampionLoadSuccess(context, state);
+              }
+            },
+          ),
+        );
+      },
     );
   }
 
 
-  Widget _buildChampionLoadSuccess( BuildContext context, ChampionLoadSuccess state ) 
+  Widget _buildChampionLoadSuccess( BuildContext context, ChampionLoadSuccess state )
   {
-  final content = state.champion;
+    final content = state.champion;
 
-  String quoteAuthor = content.quoteAuthor?.isNotEmpty == true
+    String quoteAuthor = content.quoteAuthor?.isNotEmpty == true
       ? content.quoteAuthor!
       : content.name;
 
-  return CustomScrollView(
-    slivers: [
-      SliverList(
-        delegate: SliverChildListDelegate([
-          Stack(
-            children: [
-              Image.network(
-                content.images.splash!,
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
+    return CustomScrollView(
+      slivers: [
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Stack(
+              children: [
+                Image.network(
+                  content.images.splash!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
 
-              Positioned.fill(
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black54,
-                        ThemeColors.black_2,
-                      ],
+                Positioned.fill(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black54,
+                          ThemeColors.black_2,
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              Positioned(
-                bottom: 20,
-                left: 0,
-                right: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      content.name,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    Text(
-                      content.title,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
+                Positioned(
+                  bottom: 20,
+                  left: 0,
+                  right: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        content.name,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text(
+                        content.title,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-
-          QuoteCard(
-            quote: content.quote!,
-            author: quoteAuthor,
-            image: content.images.square!,
-          ),
-
-          const SizedBox(height: 12),
-
-          IntroCard(
-            intro: content.biography!.short!,
-          ),
-
-          const SizedBox(height: 12),
-
-          StoryBlock(
-            title: "",
-            text: content.biography!.full!,
-          ),
-
-          if (content.biography!.custom!.content!.isNotEmpty)
-            StoryBlock(
-              title: content.biography!.custom!.title!,
-              text: content.biography!.custom!.content!,
+              ],
             ),
 
-            const SizedBox(height: 50),
-          ]),
-        ),
-      ],
-    );
-  }
+            QuoteCard(
+              quote: content.quote!,
+              author: quoteAuthor,
+              image: content.images.square!,
+            ),
+
+            const SizedBox(height: 12),
+
+            IntroCard(
+              intro: content.biography!.short!,
+            ),
+
+            const SizedBox(height: 12),
+
+            StoryBlock(
+              title: "",
+              text: content.biography!.full!,
+            ),
+
+            if (content.biography!.custom!.content!.isNotEmpty)
+              StoryBlock(
+                title: content.biography!.custom!.title!,
+                text: content.biography!.custom!.content!,
+              ),
+
+              const SizedBox(height: 50),
+            ]),
+          ),
+        ],
+      );
+    }
   
 }

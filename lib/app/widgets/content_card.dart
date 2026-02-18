@@ -6,8 +6,18 @@ import 'package:uniLOLverse/domain/domain.dart';
 class ContentCard extends StatelessWidget {
   final Content content;
   final int index;
-  
-  const ContentCard({super.key, required this.content,  required this.index});
+  final bool isAuthorized;
+  final bool isFavorite;
+  final VoidCallback? onToggleFavorite;
+
+  const ContentCard({
+    super.key,
+    required this.content,
+    required this.index,
+    required this.isAuthorized,
+    this.isFavorite = false,
+    this.onToggleFavorite,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,41 +50,91 @@ class ContentCard extends StatelessWidget {
         ),
 
         height: imageSize,
-        child: Row(
-          spacing: 16,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              //borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                content.images.loading,
-                fit: BoxFit.cover,
-                
-              ),
-            ),
-            Expanded(
-              child: Column(
-                spacing: 5,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    content.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleLarge,
+        child: Stack(
+          children: [ 
+            Row(
+              spacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  child: Image.network(
+                    content.images.loading,
+                    fit: BoxFit.cover,
+
                   ),
-                  Expanded(
-                    child: Text(
-                      content.title,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Expanded(
+                  child: Column(
+                    spacing: 5,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        content.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Expanded(
+                        child: Text(
+                          content.title,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            if (isAuthorized)
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: () {
+                    if (onToggleFavorite != null) {
+                      onToggleFavorite!();
+                      
+
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              isFavorite
+                                  ? 'Удалено из избранного' 
+                                  : 'Добавлено в избранное',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: isFavorite 
+                                ? Colors.red.withAlpha(200) 
+                                : Colors.pink.withAlpha(200),
+                            duration: const Duration(milliseconds: 800),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: isFavorite 
+                          ? Colors.red.withAlpha(100) 
+                          : Colors.grey.withAlpha(100),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.grey,
+                      size: 20,
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+          ]
         ),
       ),
     );

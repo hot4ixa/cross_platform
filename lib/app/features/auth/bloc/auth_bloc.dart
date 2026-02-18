@@ -6,8 +6,9 @@ part "auth_state.dart";
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthServiceInterface _authService;
+  final UserDataServiceInterface _userDataService;
 
-  AuthBloc(this._authService) : super(AuthInitial()) {
+  AuthBloc(this._authService, this._userDataService) : super(AuthInitial()) {
     on<AuthLogin>(_onLogin);
     on<AuthRegister>(_onRegister);
   }
@@ -27,11 +28,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+
     try {
       await _authService.signUp(
         email: event.email,
         password: event.password,
       );
+
+      await _userDataService.addUserData(
+        email: event.email,
+        name: event.email
+      );
+
       emit(AuthSuccess());
     } catch (e) {
       emit(AuthFailure(e.toString()));

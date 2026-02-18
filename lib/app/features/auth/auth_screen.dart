@@ -12,7 +12,7 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(pageId: PageId.auth, context: context),
+      appBar: CustomAppBar(pageId: PageId.auth, context: context, isAuthorized: false),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

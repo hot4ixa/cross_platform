@@ -7,6 +7,8 @@ import 'package:uniLOLverse/domain/repositories/content/content_repository.dart'
 
 import 'package:uniLOLverse/domain/repositories/auth/auth_service.dart';
 import 'package:uniLOLverse/data/dio/dio.dart';
+import 'package:uniLOLverse/domain/repositories/user_data/user_data_service.dart';
+import 'package:uniLOLverse/app/features/favorites/bloc/bloc.dart';
 
 import 'package:uniLOLverse/app/features/features.dart';
 
@@ -21,13 +23,21 @@ Future<void> setupLocator() async {
     ContentRepository(dio: dio),
   );
 
+  getIt.registerSingleton<UserDataServiceInterface>(
+    UserDataService(),
+  );
+
   getIt.registerSingleton<AuthServiceInterface>(
     AuthService(),
   );
 
   getIt.registerSingleton(talker);
 
-  getIt.registerSingleton(HomeBloc(getIt.get<ContentRepositoryInterface>()));
+  getIt.registerSingleton(HomeBloc(getIt.get<ContentRepositoryInterface>(), getIt.get<UserDataServiceInterface>()));
   getIt.registerFactory(() => ChampionBloc(getIt.get<ContentRepositoryInterface>()));
-  getIt.registerFactory(() => AuthBloc(getIt.get<AuthServiceInterface>()));
+  getIt.registerFactory(() => AuthBloc(getIt.get<AuthServiceInterface>(), getIt.get<UserDataServiceInterface>()));
+  getIt.registerLazySingleton<FavoritesBloc>(() => FavoritesBloc(
+      getIt<UserDataServiceInterface>(),
+      getIt<ContentRepositoryInterface>(),
+    ));
 }

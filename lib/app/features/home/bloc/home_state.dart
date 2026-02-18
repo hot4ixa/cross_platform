@@ -12,12 +12,13 @@ final class HomeInitial extends HomeState {}
 final class HomeLoadInProgress extends HomeState {}
 
 final class HomeLoadSuccess extends HomeState {
-  const HomeLoadSuccess({ required this.content});
-
   final List<Content> content;
+  final Set<String> favoriteIds;
+  
+  const HomeLoadSuccess({ required this.content, required this.favoriteIds});
 
   @override
-  List<Object> get props => [content];
+  List<Object> get props => [content, favoriteIds];
 }
 
 final class HomeLoadFailure extends HomeState {
@@ -28,3 +29,4 @@ final class HomeLoadFailure extends HomeState {
   @override
   List<Object> get props => [];
 }
+

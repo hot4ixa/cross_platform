@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:uniLOLverse/app/widgets/widgets.dart';
 import 'package:uniLOLverse/di/di.dart';
 import 'bloc/bloc.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,29 +20,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    loadHome();
+    _home.add(HomeLoad());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(pageId: PageId.home, context: context),
-      body: BlocBuilder<HomeBloc, HomeState>(
-        bloc: _home,
-        builder: (context, state) {
-          return switch (state) {
-            HomeInitial() => _buildHomeInitial(),
-            HomeLoadInProgress() => _buildHomeLoadInProgress(),
-            HomeLoadSuccess() => _buildHomeLoadSuccess(state),
-            HomeLoadFailure() => _buildHomeLoadFailure(state),
-          };
-        },
-      ),
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeBloc>().add(const HomeLoad());
+    });
+
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, authSnapshot) {
+        final isAuthorized = authSnapshot.hasData && authSnapshot.data != null;
+
+        return Scaffold(
+          appBar: CustomAppBar(
+            pageId: PageId.home,
+            context: context,
+            isAuthorized: isAuthorized,
+          ),
+          body: BlocBuilder<HomeBloc, HomeState>(
+            bloc: _home,
+            builder: (context, state) {
+              return switch (state) {
+                HomeInitial() => _buildHomeInitial(),
+                HomeLoadInProgress() => _buildHomeLoadInProgress(),
+                HomeLoadFailure() => _buildHomeLoadFailure(state),
+                HomeLoadSuccess() => _buildHomeLoadSuccess(state, isAuthorized),
+              };
+            },
+          ),
+        );
+      },
     );
   }
 
-  
   Widget _buildHomeInitial() => SizedBox.shrink();
 
   Widget _buildHomeLoadInProgress() => AppProgressIndicator();
@@ -52,8 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHomeLoadSuccess(HomeLoadSuccess state) {
+  Widget _buildHomeLoadSuccess(HomeLoadSuccess state, bool isAuthorized) {
     final content = state.content;
+    final favoriteIds = state.favoriteIds;
   
     return CustomScrollView(
       slivers: [
@@ -82,7 +99,26 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => ContentCard(content: content[index], index: index),
+            (context, index) {
+              final item = content[index];
+              final isFavorite = favoriteIds.contains(item.id);
+
+              return ContentCard(
+                content: content[index],
+                index: index,
+                isAuthorized: isAuthorized,
+                isFavorite: isFavorite,
+                onToggleFavorite: isAuthorized
+                        ? () {
+                          _home.add(
+                            HomeToggleFavorite(
+                              contentId: item.id,
+                              isCurrentlyFavorite: isFavorite,
+                            ),
+                          );}
+                        : null
+              );
+            },
             childCount: content.length,
           ),
         ),

@@ -15,3 +15,15 @@ class HomeLoad extends HomeEvent {
   @override
   List<Object> get props => [];
 }
+
+class HomeToggleFavorite extends HomeEvent {
+  final String contentId;
+  final bool isCurrentlyFavorite;
+
+  const HomeToggleFavorite({
+    required this.contentId,
+    required this.isCurrentlyFavorite
+    });
+  @override
+  List<Object> get props => [contentId, isCurrentlyFavorite];
+}

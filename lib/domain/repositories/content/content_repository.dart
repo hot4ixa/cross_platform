@@ -22,6 +22,29 @@ class ContentRepository implements ContentRepositoryInterface {
   }
 
   @override
+  Future<List<Content>> getContentByIds( List<String> ids ) async {
+    try {
+      final Response response = await dio.get(Endpoints.content);
+      final content = (response.data as List)
+          .map((e) => Content.fromJson(e))
+          .toList();
+      
+      final contentMap = {
+        for (var item in content) item.id: item,
+      };
+
+      final filteredContent = ids
+        .where((id) => contentMap.containsKey(id))
+        .map((id) => contentMap[id]!)
+        .toList();
+
+      return filteredContent;
+    } on DioException catch (e) {
+      throw e.message.toString();
+    }
+  }
+
+  @override
   Future<Content> getChampion(String id) async {
     try {
       final Response response = await dio.get(Endpoints.champion(id));
@@ -33,4 +56,6 @@ class ContentRepository implements ContentRepositoryInterface {
       throw e.message.toString();
     }
   }
+
+
 }

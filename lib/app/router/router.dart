@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uniLOLverse/app/features/favorites/bloc/bloc.dart';
+import 'package:uniLOLverse/app/features/favorites/favorites_screen.dart';
 
 import 'package:uniLOLverse/app/features/features.dart';
 import 'package:uniLOLverse/di/di.dart';
@@ -16,7 +18,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
       path: '/home',
-      pageBuilder: (_, state) => MaterialPage(
+      pageBuilder: (_, state) => NoTransitionPage(
         key: state.pageKey,
         child: const HomeScreen(),
       ),
@@ -38,19 +40,28 @@ final router = GoRouter(
 
     GoRoute(
       path: '/auth',
-      builder: (context, state) => BlocProvider(
-        create: (context) => getIt.get<AuthBloc>(),
-        child: const AuthScreen(),
-      ),
+      pageBuilder: (context, state) {
+        return NoTransitionPage(
+          key: state.pageKey,
+          child: BlocProvider(
+            create: (context) => getIt.get<AuthBloc>(),
+            child: const AuthScreen(),
+          )
+        );
+      },
     ),
 
-    // для следующей лабораторной работы
-    // GoRoute(
-    //   path: '/content/:id',
-    //   pageBuilder: (_, state) => MaterialPage(
-    //     key: state.pageKey,
-    //     child: ContentScreen(contentId: state.pathParameters['id']!),
-    //   ),
-    // ),
+    GoRoute(
+      path: '/favorites',
+      pageBuilder: (context, state) {
+        return NoTransitionPage(
+          key: state.pageKey,
+          child: BlocProvider(
+            create: (context) => getIt.get<FavoritesBloc>(),
+            child: const FavoritesScreen(),
+          )
+        );
+      }
+    ),
   ],
 );
